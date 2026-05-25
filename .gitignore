@@ -19,6 +19,8 @@
 .env
 .env.local
 
+notes/
+md_export/
 # production
 /build
 
