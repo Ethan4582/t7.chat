@@ -29,7 +29,7 @@ export default function ChatWindow({ messages, isStreaming, model, onSuggestion,
 
   if (isLoading) {
     return (
-      <div className="flex-1 overflow-y-auto px-4 md:px-6 py-6">
+      <div className="flex-1 overflow-y-auto scrollbar-hide px-4 md:px-6 py-6">
         <div className="max-w-3xl mx-auto space-y-6">
           <div className="flex flex-col items-end">
             <div className="h-12 w-48 bg-card border border-border animate-pulse rounded-2xl rounded-br-sm" />
@@ -97,7 +97,7 @@ export default function ChatWindow({ messages, isStreaming, model, onSuggestion,
   }
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 md:px-6 py-6">
+    <div className="flex-1 overflow-y-auto scrollbar-hide px-4 md:px-6 py-6">
       <div className="max-w-4xl mx-auto space-y-1">
         {messages.map((msg, i) => (
           <MessageBubble

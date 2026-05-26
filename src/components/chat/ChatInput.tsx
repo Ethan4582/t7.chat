@@ -13,7 +13,15 @@ interface Props {
   setModel: (m: ModelId) => void
 }
 
-import { Zap, Search, Paperclip } from 'lucide-react'
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu'
+import { Zap, Search, Paperclip, ChevronDown } from 'lucide-react'
 
 export default function ChatInput({ onSend, onStop, isStreaming, model, setModel }: Props) {
   const [value, setValue] = useState('')
@@ -66,20 +74,36 @@ export default function ChatInput({ onSend, onStop, isStreaming, model, setModel
 
           <div className="flex items-center justify-between px-3 pb-3">
             <div className="flex items-center gap-2">
-              <select
-                value={model || 'llama-3.3-70b-versatile'}
-                onChange={e => setModel(e.target.value as ModelId)}
-                disabled={isStreaming}
-                className="rounded-lg bg-transparent text-muted-foreground/70 border-none px-2 py-1.5 text-xs font-medium focus:outline-none hover:text-foreground hover:bg-muted/30 cursor-pointer transition-colors"
-              >
-                {PROVIDERS.flatMap(p =>
-                  p.models.map(m => (
-                    <option key={m.id} value={m.id} className="bg-card text-foreground">
-                      {m.label}
-                    </option>
-                  ))
-                )}
-              </select>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    disabled={isStreaming}
+                    className="flex items-center gap-1.5 rounded-lg bg-card/50 text-muted-foreground border border-border/50 px-2.5 py-1.5 text-[13px] font-medium hover:text-foreground hover:bg-card focus:outline-none transition-colors"
+                  >
+                    {PROVIDERS.flatMap(p => p.models).find(m => m.id === (model || 'llama-3.3-70b-versatile'))?.label || 'LLaMA 3.3 70B'}
+                    <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-[200px] bg-card border-border shadow-lg">
+                  {PROVIDERS.map((p, index) => (
+                    <div key={p.id}>
+                      {index > 0 && <DropdownMenuSeparator className="bg-border/50" />}
+                      <DropdownMenuLabel className="text-[11px] font-bold text-muted-foreground/80 uppercase tracking-wider px-2 py-1.5">
+                        {p.label}
+                      </DropdownMenuLabel>
+                      {p.models.map(m => (
+                        <DropdownMenuItem
+                          key={m.id}
+                          onClick={() => setModel(m.id)}
+                          className={`text-[13px] px-2.5 py-1.5 cursor-pointer rounded-md mx-1 mb-0.5 ${model === m.id ? 'bg-primary/10 text-primary font-medium focus:bg-primary/15' : 'text-foreground/90 focus:bg-muted/50'}`}
+                        >
+                          {m.label}
+                        </DropdownMenuItem>
+                      ))}
+                    </div>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
 
   
 

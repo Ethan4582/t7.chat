@@ -17,7 +17,7 @@
 /.next/
 /out/
 .env
-.env.local
+
 
 notes/
 md_export/
@@ -43,3 +43,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+!.env.example 
